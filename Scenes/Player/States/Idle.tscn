@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Utils/State Machine/State/component_state.gd" type="Script" id=1]
+[ext_resource path="res://Utils/Entity/State Components/Movement/move_state_component.gd" type="Script" id=2]
+[ext_resource path="res://Utils/Entity/State Components/Look Direction/look_direction_state_component.gd" type="Script" id=3]
+
+[node name="Idle" type="Node"]
+script = ExtResource( 1 )
+state_name = "idle"
+dependencies = {
+"body": NodePath(""),
+"input": NodePath(""),
+"look": NodePath("")
+}
+variables = {
+"max_speed": 0.0
+}
+
+[node name="Move" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="Look" type="Node" parent="."]
+script = ExtResource( 3 )
