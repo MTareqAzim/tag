@@ -358,6 +358,12 @@ space={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="Entity"
+3d_physics/layer_5="Map"
+3d_physics/layer_10="Camera"
+
 [physics]
 
 common/enable_pause_aware_picking=true

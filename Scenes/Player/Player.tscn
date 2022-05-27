@@ -12,15 +12,16 @@
 radius = 0.2
 height = 0.32
 
-[sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0.298039, 0.686275, 0.137255, 1 )
+[sub_resource type="SpatialMaterial" id=4]
+albedo_color = Color( 0.447059, 0.639216, 0.211765, 1 )
 
 [sub_resource type="CapsuleMesh" id=3]
-material = SubResource( 2 )
+material = SubResource( 4 )
 radius = 0.2
 mid_height = 0.32
 
 [node name="Player" type="KinematicBody"]
+collision_mask = 17
 script = ExtResource( 1 )
 max_speed = 500.0
 friction = 10.0
@@ -66,5 +67,5 @@ dependencies = {
 "look": NodePath("../../Look")
 }
 variables = {
-"max_speed": 100.0
+"max_speed": 3.0
 }
