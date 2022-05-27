@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Shaders/rolling_log.shader" type="Shader" id=1]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 10, 0.1, 10 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 1 )
+shader_param/camera_roll_offset = 8.0
+shader_param/texture_scale = Vector2( 20, 20 )
+
+[sub_resource type="PlaneMesh" id=2]
+material = SubResource( 3 )
+size = Vector2( 20, 20 )
+subdivide_width = 60
+subdivide_depth = 60
+
+[node name="World" type="Spatial"]
+
+[node name="Floor" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Floor"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Floor"]
+mesh = SubResource( 2 )
+material/0 = null
