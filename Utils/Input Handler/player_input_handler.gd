@@ -21,8 +21,7 @@ func _unhandled_input(event):
 	or event.is_action("move_forward") \
 	or event.is_action("move_back"):
 		get_tree().set_input_as_handled()
-		_input_direction.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
-		_input_direction.y = int(Input.is_action_pressed("move_back")) - int(Input.is_action_pressed("move_forward"))
+		_input_direction = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	
 	for action_map in _map:
 		var mapped_event = action_map.map(event)
