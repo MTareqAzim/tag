@@ -249,6 +249,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Player/target_direction.gd"
 }, {
+"base": "EntityStateComponent",
+"class": "TargetDirectionStateComponent",
+"language": "GDScript",
+"path": "res://Scenes/Player/target_direction_state_component.gd"
+}, {
 "base": "Reference",
 "class": "TarjanAlgorithm",
 "language": "GDScript",
@@ -313,6 +318,7 @@ _global_script_class_icons={
 "StateComponent": "res://Utils/State Machine/State/State Components/state_component.png",
 "StateMachine": "res://Utils/State Machine/state_machine.png",
 "TargetDirection": "",
+"TargetDirectionStateComponent": "",
 "TarjanAlgorithm": "",
 "TimerActivateComponentStateComponent": "",
 "TransitionStateComponent": ""

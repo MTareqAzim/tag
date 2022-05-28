@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -10,6 +10,10 @@
 [ext_resource path="res://Scenes/Player/States/Run.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Player/States/Dash.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Player/target_direction.gd" type="Script" id=10]
+[ext_resource path="res://icon.png" type="Texture" id=11]
+[ext_resource path="res://Scenes/Player/target_pivot.gd" type="Script" id=12]
+[ext_resource path="res://Shaders/rolling_sprite.shader" type="Shader" id=13]
+[ext_resource path="res://Scenes/Player/mesh_displacer.gd" type="Script" id=14]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
@@ -22,6 +26,13 @@ albedo_color = Color( 0.447059, 0.639216, 0.211765, 1 )
 material = SubResource( 4 )
 radius = 0.2
 mid_height = 0.32
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 13 )
+shader_param/camera_offset = 8.0
+shader_param/billboard = null
+shader_param/billboard_degrees = null
+shader_param/texturemap = ExtResource( 11 )
 
 [node name="Player" type="KinematicBody"]
 collision_mask = 17
@@ -38,12 +49,23 @@ shape = SubResource( 1 )
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.36, 0 )
 mesh = SubResource( 3 )
 material/0 = null
+script = ExtResource( 14 )
 
 [node name="Groundcast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
 enabled = true
 cast_to = Vector3( 0, -3, 0 )
 collision_mask = 16
+
+[node name="TargetPivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
+script = ExtResource( 12 )
+
+[node name="Sprite3D" type="Sprite3D" parent="TargetPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
+material_override = SubResource( 5 )
+axis = 1
+texture = ExtResource( 11 )
 
 [node name="Input" type="Node" parent="."]
 script = ExtResource( 3 )
@@ -88,7 +110,8 @@ variables = {
 dependencies = {
 "body": NodePath("../.."),
 "input": NodePath("../../Input"),
-"look": NodePath("../../Look")
+"look": NodePath("../../Look"),
+"target": NodePath("../../Target")
 }
 variables = {
 "max_speed": 3.0
@@ -97,9 +120,12 @@ variables = {
 [node name="Dash" parent="StateMachine" instance=ExtResource( 9 )]
 dependencies = {
 "body": NodePath("../.."),
-"look": NodePath("../../Look")
+"input": NodePath("../../Input"),
+"target": NodePath("../../Target")
 }
 variables = {
 "dash_distance": 6.0,
 "dash_duration": 0.5
 }
+
+[connection signal="direction_changed" from="Target" to="TargetPivot" method="_update_angle"]

@@ -1,4 +1,5 @@
 extends EntityStateComponent
+class_name TargetDirectionStateComponent
 
 export (String) var input_handler_key := "input"
 export (String) var target_direction_key := "target"
