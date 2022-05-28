@@ -20,7 +20,7 @@ size = Vector2( 20, 20 )
 subdivide_width = 60
 subdivide_depth = 60
 
-[node name="World" type="Spatial"]
+[node name="World" type="Spatial" groups=["world"]]
 
 [node name="Floor" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )

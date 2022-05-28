@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Scenes/Player/States/Run.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Player/States/Dash.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Player/target_direction.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/Player/rocks_generator.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Player/target_pivot.gd" type="Script" id=12]
 [ext_resource path="res://Shaders/rolling_sprite.shader" type="Shader" id=13]
 [ext_resource path="res://Scenes/Player/mesh_displacer.gd" type="Script" id=14]
@@ -92,6 +93,9 @@ script = ExtResource( 7 )
 [node name="Target" type="Node" parent="."]
 script = ExtResource( 10 )
 
+[node name="RockSpawner" type="Spatial" parent="."]
+script = ExtResource( 11 )
+
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
 
@@ -121,6 +125,7 @@ variables = {
 dependencies = {
 "body": NodePath("../.."),
 "input": NodePath("../../Input"),
+"rocks": NodePath("../../RockSpawner"),
 "target": NodePath("../../Target")
 }
 variables = {
