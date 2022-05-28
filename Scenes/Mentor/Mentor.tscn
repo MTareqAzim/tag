@@ -1,11 +1,14 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
 [ext_resource path="res://Utils/State Machine/state_machine.gd" type="Script" id=3]
-[ext_resource path="res://Utils/State Machine/State/component_state.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Mentor/States/Dash.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Mentor/caught.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/Mentor/States/Idle.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Utils/Entity/Look Direction/look_direction.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/Mentor/States/Run.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Mentor/States/Taunt.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Player/target_direction.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Player/mesh_displacer.gd" type="Script" id=14]
 
@@ -68,8 +71,30 @@ script = ExtResource( 10 )
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 3 )
 
-[node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource( 4 )
-state_name = "idle"
+[node name="Idle" parent="StateMachine" instance=ExtResource( 6 )]
+variables = {
+"max_speed": 3.5
+}
+
+[node name="Run" parent="StateMachine" instance=ExtResource( 8 )]
+variables = {
+"max_speed": 3.5
+}
+
+[node name="Dash" parent="StateMachine" instance=ExtResource( 4 )]
+dependencies = {
+"target": NodePath("")
+}
+variables = {
+"dash_distance": 3.0,
+"dash_duration": 0.3
+}
+
+[node name="Taunt" parent="StateMachine" instance=ExtResource( 9 )]
+dependencies = {
+"input": NodePath(""),
+"look": NodePath(""),
+"target": NodePath("")
+}
 
 [connection signal="area_entered" from="Caught" to="Caught" method="_on_area_entered"]
