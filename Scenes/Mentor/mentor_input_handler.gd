@@ -3,6 +3,7 @@ extends InputHandler
 export(NodePath) var rays_path
 export(NodePath) var state_machine_path
 export var safe_distance := 5.0
+export var dash_cooldown := 3.0
 
 onready var _rays : Spatial = get_node(rays_path)
 onready var _state_machine : StateMachine = get_node(state_machine_path)
@@ -10,6 +11,7 @@ onready var _state_machine : StateMachine = get_node(state_machine_path)
 var ray_scores : Dictionary
 var target : Entity
 var final_direction : Vector2 = Vector2.RIGHT
+var can_dash : bool = true
 
 
 func _physics_process(delta):
@@ -45,12 +47,6 @@ func _assign_direction():
 	final_direction = cumulative_direction.normalized()
 
 
-func print_ray_scores():
-	print(final_direction)
-	yield(get_tree().create_timer(1.0), "timeout")
-	print_ray_scores()
-
-
 func get_direction() -> Vector2:
 	var direction = Vector2(round(final_direction.x), round(final_direction.y))
 	return direction
@@ -60,9 +56,20 @@ func get_mouse_position() -> Vector3:
 	return Vector3(final_direction.x, 0.0, final_direction.y)
 
 
+func _lock_dash():
+	can_dash = false
+	yield(get_tree().create_timer(dash_cooldown), "timeout")
+	can_dash = true
+
+
 func _on_body_entered(body: PhysicsBody):
 	if not body.is_in_group("player"):
 		return
+	
+	if not can_dash:
+		return
+	
+	_lock_dash()
 	
 	var dash_event := InputAction.new()
 	dash_event.action = "dash"
@@ -72,5 +79,4 @@ func _on_body_entered(body: PhysicsBody):
 
 
 func _on_animation_finished(anim_name):
-	print(anim_name)
 	_state_machine.on_animation_finished(anim_name)
