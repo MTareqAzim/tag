@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Utils/Entity/Look Direction/look_direction.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Player/States/Run.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Player/States/Dash.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Player/target_direction.gd" type="Script" id=10]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
@@ -46,6 +47,7 @@ collision_mask = 16
 
 [node name="Input" type="Node" parent="."]
 script = ExtResource( 3 )
+body = NodePath("..")
 state_machine = NodePath("../StateMachine")
 action_buffer = NodePath("../Buffer")
 
@@ -65,6 +67,9 @@ script = ExtResource( 2 )
 [node name="Look" type="Node" parent="."]
 script = ExtResource( 7 )
 
+[node name="Target" type="Node" parent="."]
+script = ExtResource( 10 )
+
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
 
@@ -72,7 +77,8 @@ script = ExtResource( 4 )
 dependencies = {
 "body": NodePath("../.."),
 "input": NodePath("../../Input"),
-"look": NodePath("../../Look")
+"look": NodePath("../../Look"),
+"target": NodePath("../../Target")
 }
 variables = {
 "max_speed": 3.0
@@ -94,6 +100,6 @@ dependencies = {
 "look": NodePath("../../Look")
 }
 variables = {
-"dash_distance": 5.0,
+"dash_distance": 6.0,
 "dash_duration": 0.5
 }

@@ -29,8 +29,6 @@ func _set_values() -> void:
 									else _look_direction.get_look_direction()
 	direction = direction.normalized()
 	
-	print("Speed: ", speed)
-	
 	$"Velocity2D".args = [direction * speed]
 	$"TargetVelocity2D".args = [Vector2.ZERO]
 

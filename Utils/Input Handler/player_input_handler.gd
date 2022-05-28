@@ -1,9 +1,12 @@
 extends InputHandler
 class_name PlayerInputHandler, "input.png"
 
+onready var _body : Entity = get_node(body)
 onready var _state_machine : StateMachine = get_node(state_machine)
 onready var _action_buffer : ActionBuffer = get_node(action_buffer)
+onready var _viewport : Viewport = get_viewport()
 
+export (NodePath) var body
 export (NodePath) var state_machine
 export (NodePath) var action_buffer
 
@@ -33,6 +36,17 @@ func _unhandled_input(event):
 
 func set_input_direction(new_input_direction: Vector2) -> void:
 	_input_direction = new_input_direction
+
+
+func get_mouse_position() -> Vector2:
+	var mouse_viewport_position = _viewport.get_mouse_position()
+	var camera : Camera = _viewport.get_camera()
+	var from = camera.project_ray_origin(mouse_viewport_position)
+	var to = camera.project_ray_normal(mouse_viewport_position) * 100
+	var mouse_global_position = Plane(Vector3.UP, _body.global_transform.origin.y).intersects_ray(from, to)
+	var mouse_body_position = _body.to_local(mouse_global_position)
+	
+	return mouse_body_position
 
 
 func add_child(node: Node, legible_unique_name: bool = false) -> void:
