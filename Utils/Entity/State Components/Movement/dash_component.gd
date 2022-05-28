@@ -1,8 +1,8 @@
 extends EntityStateComponent
 
 export (String) var look_direction_key := "look"
-export (String) var dash_distance_key = "dash_distance"
-export (String) var dash_duration_key = "dash_duration"
+export (String) var dash_distance_key := "dash_distance"
+export (String) var dash_duration_key := "dash_duration"
 export (bool) var x_direction_only = false
 
 var _look_direction : LookDirection
@@ -29,6 +29,8 @@ func _set_values() -> void:
 									else _look_direction.get_look_direction()
 	direction = direction.normalized()
 	
+	print("Speed: ", speed)
+	
 	$"Velocity2D".args = [direction * speed]
-	$"TargetVelocity2D".args = [direction * speed]
+	$"TargetVelocity2D".args = [Vector2.ZERO]
 
