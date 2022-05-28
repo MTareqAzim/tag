@@ -38,7 +38,7 @@ func set_input_direction(new_input_direction: Vector2) -> void:
 	_input_direction = new_input_direction
 
 
-func get_mouse_position() -> Vector2:
+func get_mouse_position() -> Vector3:
 	var mouse_viewport_position = _viewport.get_mouse_position()
 	var camera : Camera = _viewport.get_camera()
 	var from = camera.project_ray_origin(mouse_viewport_position)

@@ -12,6 +12,7 @@ state_name = "dash"
 push_down = true
 overwrite = true
 dependencies = {
+"body": NodePath(""),
 "target": NodePath("")
 }
 variables = {
