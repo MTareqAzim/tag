@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scenes/Player/States/Idle.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Utils/Entity/Look Direction/look_direction.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Player/States/Run.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Player/States/Dash.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
@@ -85,4 +86,14 @@ dependencies = {
 }
 variables = {
 "max_speed": 3.0
+}
+
+[node name="Dash" parent="StateMachine" instance=ExtResource( 9 )]
+dependencies = {
+"body": NodePath("../.."),
+"look": NodePath("../../Look")
+}
+variables = {
+"dash_distance": 5.0,
+"dash_duration": 0.5
 }
