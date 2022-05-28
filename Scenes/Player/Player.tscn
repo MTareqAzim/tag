@@ -10,10 +10,10 @@
 [ext_resource path="res://Scenes/Player/States/Run.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Player/States/Dash.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Player/target_direction.gd" type="Script" id=10]
-[ext_resource path="res://icon.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/Player/target_pivot.gd" type="Script" id=12]
 [ext_resource path="res://Shaders/rolling_sprite.shader" type="Shader" id=13]
 [ext_resource path="res://Scenes/Player/mesh_displacer.gd" type="Script" id=14]
+[ext_resource path="res://Sprites/arrow.png" type="Texture" id=15]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
@@ -32,7 +32,7 @@ shader = ExtResource( 13 )
 shader_param/camera_offset = 8.0
 shader_param/billboard = null
 shader_param/billboard_degrees = null
-shader_param/texturemap = ExtResource( 11 )
+shader_param/texturemap = ExtResource( 15 )
 
 [node name="Player" type="KinematicBody"]
 collision_mask = 17
@@ -65,7 +65,7 @@ script = ExtResource( 12 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
 material_override = SubResource( 5 )
 axis = 1
-texture = ExtResource( 11 )
+texture = ExtResource( 15 )
 
 [node name="Input" type="Node" parent="."]
 script = ExtResource( 3 )
