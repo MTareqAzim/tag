@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Utils/State Machine/State/component_state.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Entity/State Components/Movement/dash_component.gd" type="Script" id=2]
 [ext_resource path="res://Utils/State Machine/State/State Components/Node State Components/Enter/call_function_enter_state_component.gd" type="Script" id=3]
 [ext_resource path="res://Utils/State Machine/State/State Components/Transitions/animation_finished_transition_state_component.gd" type="Script" id=4]
+[ext_resource path="res://Utils/State Machine/State/State Components/Transitions/pressed_transition_state_component.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Player/target_direction_state_component.gd" type="Script" id=6]
 [ext_resource path="res://Utils/Grouping Node/grouping_node.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Player/States/spawn_rocks_state_component.gd" type="Script" id=8]
@@ -49,3 +50,8 @@ script = ExtResource( 7 )
 script = ExtResource( 4 )
 animation = "dash"
 NEXT_STATE = "previous"
+
+[node name="Stunned" type="Node" parent="Transitions"]
+script = ExtResource( 5 )
+ACTION = "stunned"
+NEXT_STATE = "stunned"

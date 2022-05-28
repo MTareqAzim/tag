@@ -1,9 +1,9 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
 [ext_resource path="res://Utils/Input Handler/player_input_handler.gd" type="Script" id=3]
-[ext_resource path="res://Utils/State Machine/state_machine.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Player/player_state_machine.gd" type="Script" id=4]
 [ext_resource path="res://Utils/Input Handler/Action Map/action_map.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Player/States/Idle.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Utils/Entity/Look Direction/look_direction.gd" type="Script" id=7]
@@ -19,13 +19,14 @@
 [ext_resource path="res://Utils/Entity/Animation Player/animation.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Player/States/Predash.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Player/absolute_destruction_area.gd" type="Script" id=19]
+[ext_resource path="res://Scenes/Player/States/Stunned.tscn" type="PackedScene" id=20]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
 height = 0.32
 
 [sub_resource type="SpatialMaterial" id=4]
-albedo_color = Color( 0.447059, 0.639216, 0.211765, 1 )
+albedo_color = Color( 0.211765, 0.698039, 0.0509804, 1 )
 
 [sub_resource type="CapsuleMesh" id=3]
 material = SubResource( 4 )
@@ -68,6 +69,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("MeshInstance:mesh:material:albedo_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.211765, 0.698039, 0.0509804, 1 ) ]
+}
 
 [sub_resource type="Animation" id=7]
 resource_name = "dash"
@@ -107,6 +120,46 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=9]
 resource_name = "run"
+
+[sub_resource type="Animation" id=12]
+resource_name = "stunned"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("LookPivot/DestructionArea/CollisionShape:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LookPivot/AbsoluteDestruction/CollisionShape:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MeshInstance:mesh:material:albedo_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Color( 0.858824, 0.188235, 0.188235, 1 ), Color( 0.211765, 0.698039, 0.0509804, 1 ) ]
+}
 
 [node name="Player" type="KinematicBody"]
 collision_mask = 49
@@ -178,11 +231,6 @@ script = ExtResource( 5 )
 action = "mouse_left"
 mapped_action = "dash"
 
-[node name="Jump" type="Node" parent="Input"]
-script = ExtResource( 5 )
-action = "space"
-mapped_action = "jump"
-
 [node name="Buffer" type="Node" parent="."]
 script = ExtResource( 2 )
 
@@ -245,15 +293,23 @@ variables = {
 "dash_duration": 0.5
 }
 
+[node name="Stunned" parent="StateMachine" instance=ExtResource( 20 )]
+dependencies = {
+"input": NodePath("../../Input"),
+"target": NodePath("../../Target")
+}
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 10 )
 anims/dash = SubResource( 7 )
 anims/idle = SubResource( 8 )
 anims/predash = SubResource( 11 )
 anims/run = SubResource( 9 )
+anims/stunned = SubResource( 12 )
 script = ExtResource( 17 )
 initial_animation = "idle"
 
+[connection signal="stun_body" from="LookPivot/DestructionArea" to="StateMachine" method="_on_stun_body"]
 [connection signal="direction_changed" from="Target" to="TargetPivot" method="_update_angle"]
 [connection signal="direction_changed" from="LookTarget" to="LookPivot" method="_update_angle"]
 [connection signal="state_changed" from="StateMachine" to="AnimationPlayer" method="_on_StateMachine_state_changed"]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Utils/State Machine/State/component_state.gd" type="Script" id=1]
+[ext_resource path="res://Utils/State Machine/State/State Components/Transitions/animation_finished_transition_state_component.gd" type="Script" id=2]
+[ext_resource path="res://Utils/Grouping Node/grouping_node.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Player/target_direction_state_component.gd" type="Script" id=4]
+
+[node name="Stunned" type="Node"]
+script = ExtResource( 1 )
+state_name = "stunned"
+push_down = true
+overwrite = true
+dependencies = {
+"input": NodePath(""),
+"target": NodePath("")
+}
+
+[node name="Target" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="Transitions" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Previous" type="Node" parent="Transitions"]
+script = ExtResource( 2 )
+animation = "stunned"
+NEXT_STATE = "previous"
