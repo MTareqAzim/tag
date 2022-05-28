@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Shaders/rolling_sprite.shader" type="Shader" id=13]
 [ext_resource path="res://Scenes/Player/mesh_displacer.gd" type="Script" id=14]
 [ext_resource path="res://Sprites/arrow.png" type="Texture" id=15]
+[ext_resource path="res://Scenes/Player/destruction_area.gd" type="Script" id=16]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
@@ -74,12 +75,15 @@ texture = ExtResource( 15 )
 [node name="LookPivot" type="Spatial" parent="."]
 script = ExtResource( 12 )
 
-[node name="Area" type="Area" parent="LookPivot"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.36, 0 )
+[node name="DestructionArea" type="Area" parent="LookPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.36, 0 )
 collision_layer = 2
 collision_mask = 0
+monitoring = false
+script = ExtResource( 16 )
+body_path = NodePath("../..")
 
-[node name="CollisionShape" type="CollisionShape" parent="LookPivot/Area"]
+[node name="CollisionShape" type="CollisionShape" parent="LookPivot/DestructionArea"]
 shape = SubResource( 6 )
 
 [node name="Input" type="Node" parent="."]
