@@ -398,6 +398,7 @@ space={
 
 3d_physics/layer_1="Entity"
 3d_physics/layer_2="CollisionBox"
+3d_physics/layer_3="Catch"
 3d_physics/layer_5="Map"
 3d_physics/layer_6="Terrain"
 3d_physics/layer_10="Camera"

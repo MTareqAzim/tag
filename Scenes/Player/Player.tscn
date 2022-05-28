@@ -162,7 +162,7 @@ tracks/2/keys = {
 }
 
 [node name="Player" type="KinematicBody"]
-collision_mask = 49
+collision_mask = 48
 script = ExtResource( 1 )
 max_speed = 500.0
 friction = 10.0
@@ -219,6 +219,15 @@ script = ExtResource( 19 )
 [node name="CollisionShape" type="CollisionShape" parent="LookPivot/AbsoluteDestruction"]
 shape = SubResource( 6 )
 disabled = true
+
+[node name="Catch" type="Area" parent="LookPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0 )
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape" type="CollisionShape" parent="LookPivot/Catch"]
+shape = SubResource( 6 )
 
 [node name="Input" type="Node" parent="."]
 script = ExtResource( 3 )

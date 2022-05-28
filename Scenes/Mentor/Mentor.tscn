@@ -1,7 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
+[ext_resource path="res://Utils/State Machine/state_machine.gd" type="Script" id=3]
+[ext_resource path="res://Utils/State Machine/State/component_state.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Mentor/caught.gd" type="Script" id=5]
 [ext_resource path="res://Utils/Entity/Look Direction/look_direction.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Player/target_direction.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Player/mesh_displacer.gd" type="Script" id=14]
@@ -17,8 +20,11 @@ material = SubResource( 4 )
 radius = 0.2
 mid_height = 0.32
 
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 0.2, 0.36, 0.2 )
+
 [node name="Mentor" type="KinematicBody"]
-collision_mask = 49
+collision_mask = 48
 script = ExtResource( 1 )
 max_speed = 500.0
 friction = 10.0
@@ -40,6 +46,16 @@ enabled = true
 cast_to = Vector3( 0, -3, 0 )
 collision_mask = 16
 
+[node name="Caught" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0 )
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+script = ExtResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Caught"]
+shape = SubResource( 7 )
+
 [node name="Buffer" type="Node" parent="."]
 script = ExtResource( 2 )
 
@@ -48,3 +64,12 @@ script = ExtResource( 7 )
 
 [node name="Target" type="Node" parent="."]
 script = ExtResource( 10 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource( 4 )
+state_name = "idle"
+
+[connection signal="area_entered" from="Caught" to="Caught" method="_on_area_entered"]
