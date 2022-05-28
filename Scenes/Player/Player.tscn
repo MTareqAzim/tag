@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Utils/Input Handler/Action Map/action_map.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Player/States/Idle.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Utils/Entity/Look Direction/look_direction.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/Player/States/Run.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
@@ -67,6 +68,16 @@ script = ExtResource( 7 )
 script = ExtResource( 4 )
 
 [node name="Idle" parent="StateMachine" instance=ExtResource( 6 )]
+dependencies = {
+"body": NodePath("../.."),
+"input": NodePath("../../Input"),
+"look": NodePath("../../Look")
+}
+variables = {
+"max_speed": 3.0
+}
+
+[node name="Run" parent="StateMachine" instance=ExtResource( 8 )]
 dependencies = {
 "body": NodePath("../.."),
 "input": NodePath("../../Input"),

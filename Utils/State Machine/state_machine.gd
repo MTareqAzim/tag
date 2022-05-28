@@ -24,6 +24,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	current_state.update(delta)
+	print(current_state)
 
 
 func on_animation_finished(animation: String) -> void:
