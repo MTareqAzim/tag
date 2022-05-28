@@ -15,6 +15,7 @@ dependencies = {
 "body": NodePath(""),
 "input": NodePath(""),
 "look": NodePath(""),
+"look_target": NodePath(""),
 "target": NodePath("")
 }
 variables = {
@@ -29,6 +30,10 @@ script = ExtResource( 3 )
 
 [node name="Target" type="Node" parent="."]
 script = ExtResource( 7 )
+
+[node name="LookTarget" type="Node" parent="."]
+script = ExtResource( 7 )
+target_direction_key = "look_target"
 
 [node name="Transitions" type="Node" parent="."]
 script = ExtResource( 4 )

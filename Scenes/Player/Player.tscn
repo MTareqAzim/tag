@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -35,6 +35,9 @@ shader_param/billboard = null
 shader_param/billboard_degrees = null
 shader_param/texturemap = ExtResource( 15 )
 
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 0.2, 0.36, 0.2 )
+
 [node name="Player" type="KinematicBody"]
 collision_mask = 49
 script = ExtResource( 1 )
@@ -68,6 +71,17 @@ material_override = SubResource( 5 )
 axis = 1
 texture = ExtResource( 15 )
 
+[node name="LookPivot" type="Spatial" parent="."]
+script = ExtResource( 12 )
+
+[node name="Area" type="Area" parent="LookPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.36, 0 )
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="LookPivot/Area"]
+shape = SubResource( 6 )
+
 [node name="Input" type="Node" parent="."]
 script = ExtResource( 3 )
 body = NodePath("..")
@@ -93,6 +107,9 @@ script = ExtResource( 7 )
 [node name="Target" type="Node" parent="."]
 script = ExtResource( 10 )
 
+[node name="LookTarget" type="Node" parent="."]
+script = ExtResource( 10 )
+
 [node name="RockSpawner" type="Spatial" parent="."]
 script = ExtResource( 11 )
 
@@ -104,6 +121,7 @@ dependencies = {
 "body": NodePath("../.."),
 "input": NodePath("../../Input"),
 "look": NodePath("../../Look"),
+"look_target": NodePath("../../LookTarget"),
 "target": NodePath("../../Target")
 }
 variables = {
@@ -115,6 +133,7 @@ dependencies = {
 "body": NodePath("../.."),
 "input": NodePath("../../Input"),
 "look": NodePath("../../Look"),
+"look_target": NodePath("../../LookTarget"),
 "target": NodePath("../../Target")
 }
 variables = {
@@ -134,3 +153,4 @@ variables = {
 }
 
 [connection signal="direction_changed" from="Target" to="TargetPivot" method="_update_angle"]
+[connection signal="direction_changed" from="LookTarget" to="LookPivot" method="_update_angle"]
