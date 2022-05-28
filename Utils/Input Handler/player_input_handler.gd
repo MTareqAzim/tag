@@ -93,5 +93,5 @@ func _register_event(event: InputAction) -> void:
 		_action_buffer.add_action(event.get_action() + "_released")
 
 
-func _on_animation_finished():
-	_state_machine.on_animation_finished("finish")
+func _on_animation_finished(anim_name):
+	_state_machine.on_animation_finished(anim_name)

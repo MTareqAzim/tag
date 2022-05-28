@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Scenes/Player/mesh_displacer.gd" type="Script" id=14]
 [ext_resource path="res://Sprites/arrow.png" type="Texture" id=15]
 [ext_resource path="res://Scenes/Player/destruction_area.gd" type="Script" id=16]
+[ext_resource path="res://Utils/Entity/Animation Player/animation.gd" type="Script" id=17]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
@@ -38,6 +39,43 @@ shader_param/texturemap = ExtResource( 15 )
 
 [sub_resource type="BoxShape" id=6]
 extents = Vector3( 0.2, 0.36, 0.2 )
+
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("LookPivot/DestructionArea/CollisionShape:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "dash"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("LookPivot/DestructionArea/CollisionShape:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "idle"
+
+[sub_resource type="Animation" id=9]
+resource_name = "run"
 
 [node name="Player" type="KinematicBody"]
 collision_mask = 49
@@ -85,6 +123,7 @@ body_path = NodePath("../..")
 
 [node name="CollisionShape" type="CollisionShape" parent="LookPivot/DestructionArea"]
 shape = SubResource( 6 )
+disabled = true
 
 [node name="Input" type="Node" parent="."]
 script = ExtResource( 3 )
@@ -156,5 +195,15 @@ variables = {
 "dash_duration": 0.5
 }
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 10 )
+anims/dash = SubResource( 7 )
+anims/idle = SubResource( 8 )
+anims/run = SubResource( 9 )
+script = ExtResource( 17 )
+initial_animation = "idle"
+
 [connection signal="direction_changed" from="Target" to="TargetPivot" method="_update_angle"]
 [connection signal="direction_changed" from="LookTarget" to="LookPivot" method="_update_angle"]
+[connection signal="state_changed" from="StateMachine" to="AnimationPlayer" method="_on_StateMachine_state_changed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="Input" method="_on_animation_finished"]
