@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -17,6 +17,8 @@
 [ext_resource path="res://Sprites/arrow.png" type="Texture" id=15]
 [ext_resource path="res://Scenes/Player/destruction_area.gd" type="Script" id=16]
 [ext_resource path="res://Utils/Entity/Animation Player/animation.gd" type="Script" id=17]
+[ext_resource path="res://Scenes/Player/States/Predash.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Scenes/Player/absolute_destruction_area.gd" type="Script" id=19]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
@@ -54,6 +56,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ true ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("LookPivot/AbsoluteDestruction/CollisionShape:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=7]
 resource_name = "dash"
@@ -73,6 +87,23 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=8]
 resource_name = "idle"
+
+[sub_resource type="Animation" id=11]
+resource_name = "predash"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("LookPivot/AbsoluteDestruction/CollisionShape:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=9]
 resource_name = "run"
@@ -122,6 +153,17 @@ script = ExtResource( 16 )
 body_path = NodePath("../..")
 
 [node name="CollisionShape" type="CollisionShape" parent="LookPivot/DestructionArea"]
+shape = SubResource( 6 )
+disabled = true
+
+[node name="AbsoluteDestruction" type="Area" parent="LookPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.36, 0 )
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+script = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="LookPivot/AbsoluteDestruction"]
 shape = SubResource( 6 )
 disabled = true
 
@@ -183,7 +225,15 @@ variables = {
 "max_speed": 3.0
 }
 
+[node name="Predash" parent="StateMachine" instance=ExtResource( 18 )]
+dependencies = {
+"input": NodePath("../../Input"),
+"look_target": NodePath("../../LookTarget"),
+"target": NodePath("../../Target")
+}
+
 [node name="Dash" parent="StateMachine" instance=ExtResource( 9 )]
+overwrite = true
 dependencies = {
 "body": NodePath("../.."),
 "input": NodePath("../../Input"),
@@ -199,6 +249,7 @@ variables = {
 anims/RESET = SubResource( 10 )
 anims/dash = SubResource( 7 )
 anims/idle = SubResource( 8 )
+anims/predash = SubResource( 11 )
 anims/run = SubResource( 9 )
 script = ExtResource( 17 )
 initial_animation = "idle"

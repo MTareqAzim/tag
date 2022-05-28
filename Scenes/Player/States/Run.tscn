@@ -48,4 +48,4 @@ NEXT_STATE = "idle"
 [node name="Dash" type="Node" parent="Transitions"]
 script = ExtResource( 6 )
 ACTION = "dash"
-NEXT_STATE = "dash"
+NEXT_STATE = "predash"
