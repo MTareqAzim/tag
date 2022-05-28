@@ -1,6 +1,6 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=28 format=2]
 
-[ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Mentor/mentor.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
 [ext_resource path="res://Utils/State Machine/state_machine.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Mentor/States/Dash.tscn" type="PackedScene" id=4]
@@ -10,8 +10,13 @@
 [ext_resource path="res://Scenes/Mentor/States/Run.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Mentor/States/Taunt.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Player/target_direction.gd" type="Script" id=10]
-[ext_resource path="res://Utils/Input Handler/input_handler.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Mentor/mentor_input_handler.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Mentor/obstacle_rays.gd" type="Script" id=12]
+[ext_resource path="res://Scenes/Player/target_pivot.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Player/mesh_displacer.gd" type="Script" id=14]
+[ext_resource path="res://Shaders/rolling_sprite.shader" type="Shader" id=15]
+[ext_resource path="res://Sprites/arrow.png" type="Texture" id=16]
+[ext_resource path="res://Utils/Entity/Animation Player/animation.gd" type="Script" id=17]
 
 [sub_resource type="CapsuleShape" id=6]
 radius = 0.2
@@ -27,12 +32,33 @@ mid_height = 0.32
 [sub_resource type="BoxShape" id=7]
 extents = Vector3( 0.2, 0.36, 0.2 )
 
+[sub_resource type="SphereShape" id=9]
+radius = 2.0
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 15 )
+shader_param/camera_offset = 8.0
+shader_param/billboard = null
+shader_param/billboard_degrees = null
+shader_param/texturemap = ExtResource( 16 )
+
+[sub_resource type="Animation" id=10]
+resource_name = "dash"
+length = 0.3
+
+[sub_resource type="Animation" id=11]
+resource_name = "idle"
+
+[sub_resource type="Animation" id=12]
+resource_name = "run"
+
+[sub_resource type="Animation" id=13]
+resource_name = "taunt"
+
 [node name="Mentor" type="KinematicBody"]
 collision_mask = 48
 script = ExtResource( 1 )
 max_speed = 500.0
-friction = 10.0
-acceleration = 5.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.36, 0 )
@@ -60,8 +86,33 @@ script = ExtResource( 5 )
 [node name="CollisionShape" type="CollisionShape" parent="Caught"]
 shape = SubResource( 7 )
 
+[node name="Dash" type="Area" parent="."]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="Dash"]
+shape = SubResource( 9 )
+
+[node name="TargetPivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
+script = ExtResource( 13 )
+
+[node name="Sprite3D" type="Sprite3D" parent="TargetPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0, 0 )
+material_override = SubResource( 8 )
+axis = 1
+texture = ExtResource( 16 )
+
+[node name="Rays" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0 )
+script = ExtResource( 12 )
+cast_distance = 5.0
+layers = [ 4, 5 ]
+
 [node name="Input" type="Node" parent="."]
 script = ExtResource( 11 )
+rays_path = NodePath("../Rays")
+state_machine_path = NodePath("../StateMachine")
 
 [node name="Buffer" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -71,6 +122,14 @@ script = ExtResource( 7 )
 
 [node name="Target" type="Node" parent="."]
 script = ExtResource( 10 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/dash = SubResource( 10 )
+anims/idle = SubResource( 11 )
+anims/run = SubResource( 12 )
+anims/taunt = SubResource( 13 )
+script = ExtResource( 17 )
+initial_animation = "idle"
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 3 )
@@ -115,3 +174,7 @@ dependencies = {
 }
 
 [connection signal="area_entered" from="Caught" to="Caught" method="_on_area_entered"]
+[connection signal="body_entered" from="Dash" to="Input" method="_on_body_entered"]
+[connection signal="direction_changed" from="Target" to="TargetPivot" method="_update_angle"]
+[connection signal="animation_finished" from="AnimationPlayer" to="Input" method="_on_animation_finished"]
+[connection signal="state_changed" from="StateMachine" to="AnimationPlayer" method="_on_StateMachine_state_changed"]
