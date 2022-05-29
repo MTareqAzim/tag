@@ -1,9 +1,9 @@
 extends Control
 
-var game_scene = "res://Scenes/Worlds/World.tscn"
+var intro = "res://Scenes/Menu/Intro.tscn"
 
 
 
 
 func _on_Button_pressed():
-	get_tree().change_scene(game_scene)
+	get_tree().change_scene(intro)
