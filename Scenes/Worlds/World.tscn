@@ -13,7 +13,7 @@ extents = Vector3( 20, 0.1, 20 )
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 3 )
-shader_param/camera_roll_offset = 8.0
+shader_param/camera_roll_offset = 9.0
 shader_param/texture_scale = Vector2( 80, 80 )
 shader_param/texturemap = ExtResource( 2 )
 
@@ -25,7 +25,7 @@ subdivide_depth = 100
 
 [sub_resource type="ShaderMaterial" id=6]
 shader = ExtResource( 3 )
-shader_param/camera_roll_offset = 8.0
+shader_param/camera_roll_offset = 9.0
 shader_param/texture_scale = Vector2( 20, 20 )
 
 [sub_resource type="CubeMesh" id=4]
@@ -40,7 +40,7 @@ extents = Vector3( 1, 3, 22 )
 
 [sub_resource type="ShaderMaterial" id=9]
 shader = ExtResource( 3 )
-shader_param/camera_roll_offset = 8.0
+shader_param/camera_roll_offset = 9.0
 shader_param/texture_scale = Vector2( 20, 20 )
 
 [sub_resource type="CubeMesh" id=7]

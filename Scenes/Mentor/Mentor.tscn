@@ -35,9 +35,9 @@ extents = Vector3( 0.1, 0.36, 0.1 )
 [sub_resource type="SphereShape" id=9]
 radius = 1.5
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=14]
 shader = ExtResource( 15 )
-shader_param/camera_offset = 8.0
+shader_param/camera_offset = 9.0
 shader_param/billboard = null
 shader_param/billboard_degrees = null
 shader_param/texturemap = ExtResource( 16 )
@@ -71,6 +71,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.36
 mesh = SubResource( 5 )
 material/0 = null
 script = ExtResource( 14 )
+camera_offset = 9.0
 
 [node name="Groundcast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
@@ -101,7 +102,7 @@ script = ExtResource( 13 )
 
 [node name="Sprite3D" type="Sprite3D" parent="TargetPivot"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0, 0 )
-material_override = SubResource( 8 )
+material_override = SubResource( 14 )
 axis = 1
 texture = ExtResource( 16 )
 
@@ -117,6 +118,11 @@ rays_path = NodePath("../Rays")
 state_machine_path = NodePath("../StateMachine")
 dash_area_path = NodePath("../Dash")
 dash_cooldown = 2.0
+
+[node name="Timer" type="Timer" parent="Input"]
+wait_time = 3.0
+one_shot = true
+autostart = true
 
 [node name="Buffer" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -179,6 +185,7 @@ dependencies = {
 
 [connection signal="area_entered" from="Caught" to="Caught" method="_on_area_entered"]
 [connection signal="body_entered" from="Dash" to="Input" method="_on_body_entered"]
+[connection signal="timeout" from="Input/Timer" to="Input" method="_on_timeout"]
 [connection signal="direction_changed" from="Target" to="TargetPivot" method="_update_angle"]
 [connection signal="animation_finished" from="AnimationPlayer" to="Input" method="_on_animation_finished"]
 [connection signal="state_changed" from="StateMachine" to="AnimationPlayer" method="_on_StateMachine_state_changed"]

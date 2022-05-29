@@ -15,6 +15,7 @@ state_name = "dash"
 push_down = true
 dependencies = {
 "body": NodePath(""),
+"camera": NodePath(""),
 "input": NodePath(""),
 "rocks": NodePath(""),
 "target": NodePath("")
@@ -42,6 +43,12 @@ script = ExtResource( 6 )
 
 [node name="SpawnRocks" type="Node" parent="."]
 script = ExtResource( 8 )
+
+[node name="Camera" type="Node" parent="."]
+script = ExtResource( 3 )
+node_key = "camera"
+FUNCTION_NAME = "shake"
+has_args = false
 
 [node name="Transitions" type="Node" parent="."]
 script = ExtResource( 7 )

@@ -1,6 +1,6 @@
 shader_type spatial;
 
-uniform float camera_roll_offset = 8.0;
+uniform float camera_roll_offset = 9.0;
 uniform vec4 color : hint_color;
 
 void vertex() {

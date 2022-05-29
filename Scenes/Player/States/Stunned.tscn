@@ -13,6 +13,7 @@ push_down = true
 overwrite = true
 dependencies = {
 "body": NodePath(""),
+"camera": NodePath(""),
 "input": NodePath(""),
 "target": NodePath("")
 }
@@ -25,6 +26,12 @@ script = ExtResource( 5 )
 node_key = "body"
 FUNCTION_NAME = "set_velocity_2d"
 args = [ Vector2( 0, 0 ) ]
+
+[node name="CameraShake" type="Node" parent="."]
+script = ExtResource( 5 )
+node_key = "camera"
+FUNCTION_NAME = "shake"
+has_args = false
 
 [node name="Transitions" type="Node" parent="."]
 script = ExtResource( 3 )

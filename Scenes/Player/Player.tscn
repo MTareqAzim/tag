@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -12,7 +12,7 @@
 [ext_resource path="res://Scenes/Player/target_direction.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Player/rocks_generator.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Player/target_pivot.gd" type="Script" id=12]
-[ext_resource path="res://Shaders/rolling_sprite.shader" type="Shader" id=13]
+[ext_resource path="res://Scenes/Player/camera_shake.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Player/mesh_displacer.gd" type="Script" id=14]
 [ext_resource path="res://Sprites/arrow.png" type="Texture" id=15]
 [ext_resource path="res://Scenes/Player/destruction_area.gd" type="Script" id=16]
@@ -32,13 +32,6 @@ albedo_color = Color( 0.211765, 0.698039, 0.0509804, 1 )
 material = SubResource( 4 )
 radius = 0.2
 mid_height = 0.32
-
-[sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 13 )
-shader_param/camera_offset = 8.0
-shader_param/billboard = null
-shader_param/billboard_degrees = null
-shader_param/texturemap = ExtResource( 15 )
 
 [sub_resource type="BoxShape" id=6]
 extents = Vector3( 0.2, 0.36, 0.2 )
@@ -177,6 +170,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.36
 mesh = SubResource( 13 )
 material/0 = null
 script = ExtResource( 14 )
+camera_offset = 9.0
 
 [node name="Groundcast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
@@ -190,7 +184,6 @@ script = ExtResource( 12 )
 
 [node name="Sprite3D" type="Sprite3D" parent="TargetPivot"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
-material_override = SubResource( 5 )
 axis = 1
 texture = ExtResource( 15 )
 
@@ -255,6 +248,9 @@ script = ExtResource( 10 )
 [node name="RockSpawner" type="Spatial" parent="."]
 script = ExtResource( 11 )
 
+[node name="Camera" type="Spatial" parent="."]
+script = ExtResource( 13 )
+
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
 
@@ -294,6 +290,7 @@ dependencies = {
 overwrite = true
 dependencies = {
 "body": NodePath("../.."),
+"camera": NodePath("../../Camera"),
 "input": NodePath("../../Input"),
 "rocks": NodePath("../../RockSpawner"),
 "target": NodePath("../../Target")
@@ -306,6 +303,7 @@ variables = {
 [node name="Stunned" parent="StateMachine" instance=ExtResource( 20 )]
 dependencies = {
 "body": NodePath("../.."),
+"camera": NodePath("../../Camera"),
 "input": NodePath("../../Input"),
 "target": NodePath("../../Target")
 }

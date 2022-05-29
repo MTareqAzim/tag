@@ -7,6 +7,8 @@ export var safe_distance := 5.0
 export var dash_cooldown := 3.0
 export var target_dash_threshold := 6.0
 export var checkpoint_reached_distance := 2.0
+export var taunt_cooldown := 5.0
+export var taunt_cooldown_range := 3.0
 
 onready var _rays : Spatial = get_node(rays_path)
 onready var _state_machine : StateMachine = get_node(state_machine_path)
@@ -119,6 +121,18 @@ func assign_checkpoint():
 	checkpoint = arena.position + local_position
 
 
+func _try_to_taunt():
+	var taunt_event := InputAction.new()
+	taunt_event.action = "taunt"
+	taunt_event.pressed = true
+	
+	_state_machine.handle_input(taunt_event)
+	
+	var cooldown = rand_range(taunt_cooldown, taunt_cooldown + taunt_cooldown_range)
+	yield(get_tree().create_timer(cooldown), "timeout")
+	_try_to_taunt()
+
+
 func _try_to_dash(body: PhysicsBody):
 	if not body.is_in_group("player"):
 		return
@@ -150,3 +164,7 @@ func _on_body_entered(body: PhysicsBody):
 
 func _on_animation_finished(anim_name):
 	_state_machine.on_animation_finished(anim_name)
+
+
+func _on_timeout():
+	_try_to_taunt()
