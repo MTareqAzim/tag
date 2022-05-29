@@ -327,7 +327,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Tag"
-run/main_scene="res://Scenes/Worlds/World.tscn"
+run/main_scene="res://Scenes/Menu/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]

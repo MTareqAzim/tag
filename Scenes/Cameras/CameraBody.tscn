@@ -11,6 +11,7 @@ collision_layer = 512
 collision_mask = 16
 script = ExtResource( 1 )
 lock_y = true
+x_distance = 1.5
 z_distance = 1.5
 
 [node name="CollisionShape" type="CollisionShape" parent="."]

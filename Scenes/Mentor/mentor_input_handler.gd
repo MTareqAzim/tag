@@ -81,7 +81,7 @@ func _modify_ray_scores():
 		var distance_factor = 1.0 - clamp(pow(0.5, safe_distance - distance_to_target), 0.0, 1.0)
 		var multiplier = 1.0 - (direction_factor * distance_factor)
 		
-		var checkpoint_multiplier = clamp(direction_to_checkpoint.dot(direction), 0.1, 1.0)
+		var checkpoint_multiplier = clamp(direction_to_checkpoint.dot(direction), 0.3, 1.0)
 		
 		var original_score = ray_scores[direction]
 		var multiplied_score = original_score * multiplier 
