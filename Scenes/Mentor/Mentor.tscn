@@ -33,7 +33,7 @@ mid_height = 0.32
 extents = Vector3( 0.1, 0.36, 0.1 )
 
 [sub_resource type="SphereShape" id=9]
-radius = 2.0
+radius = 1.5
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 15 )
@@ -59,6 +59,8 @@ resource_name = "taunt"
 collision_mask = 48
 script = ExtResource( 1 )
 max_speed = 500.0
+friction = 10.0
+acceleration = 5.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.36, 0 )
@@ -113,6 +115,8 @@ layers = [ 4, 5 ]
 script = ExtResource( 11 )
 rays_path = NodePath("../Rays")
 state_machine_path = NodePath("../StateMachine")
+dash_area_path = NodePath("../Dash")
+dash_cooldown = 2.0
 
 [node name="Buffer" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -162,7 +166,7 @@ dependencies = {
 "target": NodePath("../../Target")
 }
 variables = {
-"dash_distance": 3.0,
+"dash_distance": 2.0,
 "dash_duration": 0.3
 }
 

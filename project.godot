@@ -330,6 +330,10 @@ config/name="Tag"
 run/main_scene="res://Scenes/Worlds/World.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Randomize="*res://Utils/Random/randomize.gd"
+
 [display]
 
 window/size/height=576

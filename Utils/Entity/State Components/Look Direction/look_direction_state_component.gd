@@ -10,6 +10,9 @@ var _input_handler : InputHandler
 func update(_delta: float) -> void:
 	var look_direction = _input_handler.get_direction()
 	
+	look_direction.x = round(look_direction.x)
+	look_direction.y = round(look_direction.y)
+	
 	_update_look_direction(look_direction)
 
 

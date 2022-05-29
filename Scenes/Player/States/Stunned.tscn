@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Utils/State Machine/State/component_state.gd" type="Script" id=1]
 [ext_resource path="res://Utils/State Machine/State/State Components/Transitions/animation_finished_transition_state_component.gd" type="Script" id=2]
 [ext_resource path="res://Utils/Grouping Node/grouping_node.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Player/target_direction_state_component.gd" type="Script" id=4]
+[ext_resource path="res://Utils/State Machine/State/State Components/Node State Components/Enter/call_function_enter_state_component.gd" type="Script" id=5]
 
 [node name="Stunned" type="Node"]
 script = ExtResource( 1 )
@@ -11,12 +12,19 @@ state_name = "stunned"
 push_down = true
 overwrite = true
 dependencies = {
+"body": NodePath(""),
 "input": NodePath(""),
 "target": NodePath("")
 }
 
 [node name="Target" type="Node" parent="."]
 script = ExtResource( 4 )
+
+[node name="Velocity2D" type="Node" parent="."]
+script = ExtResource( 5 )
+node_key = "body"
+FUNCTION_NAME = "set_velocity_2d"
+args = [ Vector2( 0, 0 ) ]
 
 [node name="Transitions" type="Node" parent="."]
 script = ExtResource( 3 )
