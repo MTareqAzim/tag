@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Utils/Entity/entity.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -31,6 +31,11 @@ extents = Vector3( 0.4, 0.36, 0.2 )
 
 [sub_resource type="BoxShape" id=15]
 extents = Vector3( 0.2, 0.36, 0.2 )
+
+[sub_resource type="CylinderMesh" id=16]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.02
 
 [sub_resource type="Animation" id=10]
 length = 0.001
@@ -290,6 +295,12 @@ monitoring = false
 
 [node name="CollisionShape" type="CollisionShape" parent="LookPivot/Catch"]
 shape = SubResource( 15 )
+
+[node name="Shadow" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0.2 )
+cast_shadow = 3
+mesh = SubResource( 16 )
+material/0 = null
 
 [node name="SpritePivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0.2 )

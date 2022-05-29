@@ -2,6 +2,8 @@ extends Node
 
 var win = "res://Scenes/Menu/Credits.tscn"
 
+signal tagged
+
 var tagged : int = 0
 
 
@@ -11,6 +13,7 @@ func reset():
 
 func tagged():
 	tagged += 1
+	emit_signal("tagged")
 	
 	if tagged >= 5:
 		_end_game()
