@@ -1,5 +1,7 @@
 extends RigidBody
 
+var debris = preload("res://Scenes/Rocks/Debris.tscn")
+
 export var speed_threshold := 10.0
 export var stun_threshold := 6.0
 
@@ -9,6 +11,9 @@ func _ready():
 
 
 func crumble():
+	var debris_instance = debris.instance()
+	get_parent().add_child(debris_instance)
+	debris_instance.global_transform = $CollisionShape.global_transform
 	queue_free()
 
 

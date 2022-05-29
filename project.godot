@@ -333,6 +333,8 @@ config/icon="res://icon.png"
 [autoload]
 
 Randomize="*res://Utils/Random/randomize.gd"
+SlowMotion="*res://Utils/Slow Motion/slow_motion.gd"
+Stats="*res://Scenes/Worlds/stats.gd"
 
 [display]
 

@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Shaders/rolling_albedo_mesh.shader" type="Shader" id=1]
+[ext_resource path="res://Scenes/Rocks/debris.gd" type="Script" id=2]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 1 )
+shader_param/camera_roll_offset = 9.0
+shader_param/color = Color( 0.627451, 0.470588, 0.137255, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+material = SubResource( 1 )
+size = Vector3( 0.1, 0.1, 0.1 )
+
+[node name="Debris" type="CPUParticles"]
+emitting = false
+amount = 50
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource( 2 )
+direction = Vector3( 0, 1, 0 )
+initial_velocity = 5.0
+initial_velocity_random = 0.5
+script = ExtResource( 2 )

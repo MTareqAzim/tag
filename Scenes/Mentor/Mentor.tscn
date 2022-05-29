@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scenes/Mentor/mentor.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Action Buffer/action_buffer.gd" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://Shaders/rolling_sprite.shader" type="Shader" id=15]
 [ext_resource path="res://Sprites/arrow.png" type="Texture" id=16]
 [ext_resource path="res://Utils/Entity/Animation Player/animation.gd" type="Script" id=17]
+[ext_resource path="res://Utils/Floating Text/FloatingTextGenerator.tscn" type="PackedScene" id=18]
 
 [sub_resource type="CapsuleShape" id=6]
 radius = 0.2
@@ -30,7 +31,7 @@ radius = 0.2
 mid_height = 0.32
 
 [sub_resource type="BoxShape" id=7]
-extents = Vector3( 0.1, 0.36, 0.1 )
+extents = Vector3( 0.2, 0.36, 0.2 )
 
 [sub_resource type="SphereShape" id=9]
 radius = 1.5
@@ -74,6 +75,9 @@ material/0 = null
 script = ExtResource( 14 )
 camera_offset = 9.0
 
+[node name="Text" parent="MeshInstance" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, -2.18557e-08, 0.5 )
+
 [node name="Groundcast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
 enabled = true
@@ -86,6 +90,7 @@ collision_layer = 0
 collision_mask = 4
 monitorable = false
 script = ExtResource( 5 )
+text_generator = NodePath("../MeshInstance/Text")
 
 [node name="CollisionShape" type="CollisionShape" parent="Caught"]
 shape = SubResource( 7 )
@@ -118,6 +123,7 @@ script = ExtResource( 11 )
 rays_path = NodePath("../Rays")
 state_machine_path = NodePath("../StateMachine")
 dash_area_path = NodePath("../Dash")
+safe_distance = 7.0
 dash_cooldown = 2.0
 
 [node name="Timer" type="Timer" parent="Input"]
@@ -173,7 +179,7 @@ dependencies = {
 "target": NodePath("../../Target")
 }
 variables = {
-"dash_distance": 2.0,
+"dash_distance": 3.0,
 "dash_duration": 0.3
 }
 

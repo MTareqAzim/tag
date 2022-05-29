@@ -10,7 +10,7 @@ pixel_size = 0.005
 script = ExtResource( 2 )
 
 [node name="Viewport" type="Viewport" parent="."]
-size = Vector2( 100, 18 )
+size = Vector2( 250, 60 )
 transparent_bg = true
 hdr = false
 disable_3d = true
@@ -19,12 +19,12 @@ render_target_v_flip = true
 script = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="Viewport"]
-margin_right = 100.0
-margin_bottom = 21.0
+margin_right = 228.0
+margin_bottom = 57.0
+custom_colors/font_color = Color( 0.431373, 1, 0.454902, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0.376471, 0, 1 )
 custom_fonts/font = ExtResource( 1 )
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-custom_colors/font_outline_modulate = Color( 0.658824, 0, 0, 1 )
-text = "10"
+text = "TAGGED!"
 align = 1
 valign = 1
 __meta__ = {
