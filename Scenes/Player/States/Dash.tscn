@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Utils/State Machine/State/component_state.gd" type="Script" id=1]
 [ext_resource path="res://Utils/Entity/State Components/Movement/dash_component.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scenes/Player/target_direction_state_component.gd" type="Script" id=6]
 [ext_resource path="res://Utils/Grouping Node/grouping_node.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Player/States/spawn_rocks_state_component.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/Player/States/look_using_target_component.gd" type="Script" id=9]
 
 [node name="Dash" type="Node"]
 script = ExtResource( 1 )
@@ -17,6 +18,8 @@ dependencies = {
 "body": NodePath(""),
 "camera": NodePath(""),
 "input": NodePath(""),
+"look": NodePath(""),
+"look_target": NodePath(""),
 "rocks": NodePath(""),
 "target": NodePath("")
 }
@@ -43,6 +46,9 @@ script = ExtResource( 6 )
 
 [node name="SpawnRocks" type="Node" parent="."]
 script = ExtResource( 8 )
+
+[node name="LookUsingTarget" type="Node" parent="."]
+script = ExtResource( 9 )
 
 [node name="Camera" type="Node" parent="."]
 script = ExtResource( 3 )

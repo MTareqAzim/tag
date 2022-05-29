@@ -18,8 +18,7 @@ func set_look_direction(new_look_direction: Vector2) -> void:
 	
 	_look_direction = new_look_direction
 	
-	var new_x_look_direction = sign(_look_direction.x) \
-			if abs(_look_direction.x) >= 0.3 else 0
+	var new_x_look_direction = sign(_look_direction.x)
 	set_x_look_direction(new_x_look_direction)
 	emit_signal("direction_changed", new_look_direction)
 
