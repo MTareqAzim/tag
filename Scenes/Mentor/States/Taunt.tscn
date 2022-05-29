@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Utils/State Machine/State/component_state.gd" type="Script" id=1]
 [ext_resource path="res://Utils/State Machine/State/State Components/Transitions/animation_finished_transition_state_component.gd" type="Script" id=2]
@@ -6,12 +6,14 @@
 [ext_resource path="res://Utils/State Machine/State/State Components/Transitions/pressed_transition_state_component.gd" type="Script" id=4]
 [ext_resource path="res://Utils/Entity/State Components/Look Direction/look_direction_state_component.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Player/target_direction_state_component.gd" type="Script" id=6]
+[ext_resource path="res://Utils/State Machine/State/State Components/Node State Components/Enter/call_function_enter_state_component.gd" type="Script" id=7]
 
 [node name="Taunt" type="Node"]
 script = ExtResource( 1 )
 state_name = "taunt"
 push_down = true
 dependencies = {
+"body": NodePath(""),
 "input": NodePath(""),
 "look": NodePath(""),
 "target": NodePath("")
@@ -22,6 +24,18 @@ script = ExtResource( 5 )
 
 [node name="Target" type="Node" parent="."]
 script = ExtResource( 6 )
+
+[node name="Velocity2D" type="Node" parent="."]
+script = ExtResource( 7 )
+node_key = "body"
+FUNCTION_NAME = "set_velocity_2d"
+args = [ Vector2( 0, 0 ) ]
+
+[node name="TargetVelocity2D" type="Node" parent="."]
+script = ExtResource( 7 )
+node_key = "body"
+FUNCTION_NAME = "set_target_velocity_2d"
+args = [ Vector2( 0, 0 ) ]
 
 [node name="Transitions" type="Node" parent="."]
 script = ExtResource( 3 )
